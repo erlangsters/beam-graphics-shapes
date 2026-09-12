@@ -10,13 +10,13 @@
     {env, []},
     {modules, [
         beam_graphics_shapes,
-        shape2_rounded_rectangle,
-        shape2_ellipse,
-        shape2_ring,
-        shape3_cylinder,
-        shape3_capsule,
-        shape3_pyramid,
-        shape3_torus
+        graphics_shape2_rounded_rectangle,
+        graphics_shape2_ellipse,
+        graphics_shape2_ring,
+        graphics_shape3_cylinder,
+        graphics_shape3_capsule,
+        graphics_shape3_pyramid,
+        graphics_shape3_torus
     ]},
     {licenses, ["MIT"]},
     {links, []}

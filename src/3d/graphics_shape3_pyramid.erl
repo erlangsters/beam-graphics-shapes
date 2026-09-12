@@ -7,7 +7,7 @@
 %%
 %% Written by Jonathan De Wachter <jonathan.dewachter@byteplug.io>
 %%
--module(shape3_pyramid).
+-module(graphics_shape3_pyramid).
 -moduledoc """
 3D Pyramid
 
@@ -15,22 +15,22 @@ A 3D pyramid is a filled or wireframe rectangular pyramid that is typically
 used for rendering. It constructs a core `graphics:shape3()`.
 
 A pyramid is positioned by its center. `Size` is the full width, height, and
-length, matching `box3:from_center_size/2`. The name is conventional; the base
+length, matching `graphics_box3:from_center_size/2`. The name is conventional; the base
 need not be square. The base lies in XZ at `Y = Cy - Height/2`. The apex is
 `{Cx, Cy + Height/2, Cz}`. Y is up.
 
 ```erlang
-{ok, Shape} = shape3_pyramid:solid(
+{ok, Shape} = graphics_shape3_pyramid:solid(
     {0.0, 0.0, 0.0},
     {2.0, 3.0, 2.0},
     ?COLOR_RED
 ).
-ok = surface:draw_shape3(Surface, Shape).
-ok = shape3:destroy(Shape).
+ok = graphics_surface:draw_shape3(Surface, Shape).
+ok = graphics_shape3:destroy(Shape).
 ```
 
 Generated vertices use UV coordinates `(0.0, 0.0)`. Dispose the shape with
-`shape3:destroy/1`.
+`graphics_shape3:destroy/1`.
 
 Beware that a well-formed 3D pyramid always uses floats, not integers, for
 positions, sizes, and colors.
@@ -121,9 +121,9 @@ pyramid_points(X, Y, Z, Width, Height, Length) ->
     {Apex, B00, B10, B01, B11}.
 
 shape_from_vertices(Vertices, PrimitiveType) ->
-    case mesh3:with_vertices(Vertices) of
+    case graphics_mesh3:with_vertices(Vertices) of
         {ok, Mesh} ->
-            {ok, shape3:with_mesh(Mesh, PrimitiveType, length(Vertices))};
+            {ok, graphics_shape3:with_mesh(Mesh, PrimitiveType, length(Vertices))};
         out_of_memory ->
             out_of_memory
     end.

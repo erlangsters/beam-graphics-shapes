@@ -7,7 +7,7 @@
 %%
 %% Written by Jonathan De Wachter <jonathan.dewachter@byteplug.io>
 %%
--module(shape2_ring).
+-module(graphics_shape2_ring).
 -moduledoc """
 2D Ring
 
@@ -16,18 +16,18 @@ for rendering. It constructs a core `graphics:shape2()`.
 
 A ring is positioned by its center. `InnerRadius` and `OuterRadius` are
 first-class radii, not a thickness relative to one radius. That is the
-difference from `shape2:circle_outline/4`. Tessellation defaults to 32
+difference from `graphics_shape2:circle_outline/4`. Tessellation defaults to 32
 segments. Outline thickness is signed: positive grows into the annulus from
 both rims, negative grows away from both rims.
 
 ```erlang
-{ok, Shape} = shape2_ring:solid({0.0, 0.0}, 4.0, 8.0, ?COLOR_RED).
-ok = surface:draw_shape2(Surface, Shape).
-ok = shape2:destroy(Shape).
+{ok, Shape} = graphics_shape2_ring:solid({0.0, 0.0}, 4.0, 8.0, ?COLOR_RED).
+ok = graphics_surface:draw_shape2(Surface, Shape).
+ok = graphics_shape2:destroy(Shape).
 ```
 
 Generated vertices use UV coordinates `(0.0, 0.0)`. Dispose the shape with
-`shape2:destroy/1`.
+`graphics_shape2:destroy/1`.
 
 Beware that a well-formed 2D ring always uses floats, not integers, for
 positions, radii, thickness, and colors.
@@ -215,9 +215,9 @@ circle_loop(X, Y, Radius, Segments, Color) ->
     ].
 
 shape_from_vertices(Vertices, PrimitiveType) ->
-    case mesh2:with_vertices(Vertices) of
+    case graphics_mesh2:with_vertices(Vertices) of
         {ok, Mesh} ->
-            {ok, shape2:with_mesh(Mesh, PrimitiveType, length(Vertices))};
+            {ok, graphics_shape2:with_mesh(Mesh, PrimitiveType, length(Vertices))};
         out_of_memory ->
             out_of_memory
     end.
@@ -226,15 +226,15 @@ shape_from_vertex_groups(Groups) ->
     shape_from_vertex_groups(Groups, []).
 
 shape_from_vertex_groups([], Acc) ->
-    {ok, shape2:with_meshes(lists:reverse(Acc))};
+    {ok, graphics_shape2:with_meshes(lists:reverse(Acc))};
 shape_from_vertex_groups([{Vertices, PrimitiveType} | Rest], Acc) ->
-    case mesh2:with_vertices(Vertices) of
+    case graphics_mesh2:with_vertices(Vertices) of
         {ok, Mesh} ->
             Item = {Mesh, PrimitiveType, length(Vertices)},
             shape_from_vertex_groups(Rest, [Item | Acc]);
         out_of_memory ->
             lists:foreach(fun({Created, _, _}) ->
-                mesh2:destroy(Created)
+                graphics_mesh2:destroy(Created)
             end, Acc),
             out_of_memory
     end.

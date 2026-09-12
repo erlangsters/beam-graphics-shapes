@@ -7,7 +7,7 @@
 %%
 %% Written by Jonathan De Wachter <jonathan.dewachter@byteplug.io>
 %%
--module(shape2_rounded_rectangle).
+-module(graphics_shape2_rounded_rectangle).
 -moduledoc """
 2D Rounded Rectangle
 
@@ -17,24 +17,24 @@ constructs a core `graphics:shape2()`.
 
 A rounded rectangle is positioned by its minimum corner. `Size` is the full
 width and height. The rectangle extends in `+X` and `+Y`, matching
-`shape2:rectangle/3`. `Radius` is the corner radius in world units, clamped to
+`graphics_shape2:rectangle/3`. `Radius` is the corner radius in world units, clamped to
 half the shorter side. `Segments` is the tessellation of each corner quarter;
 it defaults to 8. Outline thickness is signed: positive grows inwards,
 negative grows outwards.
 
 ```erlang
-{ok, Shape} = shape2_rounded_rectangle:solid(
+{ok, Shape} = graphics_shape2_rounded_rectangle:solid(
     {0.0, 0.0},
     {100.0, 50.0},
     8.0,
     ?COLOR_RED
 ).
-ok = surface:draw_shape2(Surface, Shape).
-ok = shape2:destroy(Shape).
+ok = graphics_surface:draw_shape2(Surface, Shape).
+ok = graphics_shape2:destroy(Shape).
 ```
 
 Generated vertices use UV coordinates `(0.0, 0.0)`. Dispose the shape with
-`shape2:destroy/1`.
+`graphics_shape2:destroy/1`.
 
 Beware that a well-formed 2D rounded rectangle always uses floats, not
 integers, for positions, sizes, radii, thickness, and colors.
@@ -238,9 +238,9 @@ corner_arc({Cx, Cy}, Radius, StartAngle, EndAngle, Segments, Color) ->
     ].
 
 shape_from_vertices(Vertices, PrimitiveType) ->
-    case mesh2:with_vertices(Vertices) of
+    case graphics_mesh2:with_vertices(Vertices) of
         {ok, Mesh} ->
-            {ok, shape2:with_mesh(Mesh, PrimitiveType, length(Vertices))};
+            {ok, graphics_shape2:with_mesh(Mesh, PrimitiveType, length(Vertices))};
         out_of_memory ->
             out_of_memory
     end.

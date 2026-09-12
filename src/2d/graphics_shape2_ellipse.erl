@@ -7,7 +7,7 @@
 %%
 %% Written by Jonathan De Wachter <jonathan.dewachter@byteplug.io>
 %%
--module(shape2_ellipse).
+-module(graphics_shape2_ellipse).
 -moduledoc """
 2D Ellipse
 
@@ -17,16 +17,16 @@ for rendering. It constructs a core `graphics:shape2()`.
 An ellipse is positioned by its center. `Radii` is `{RadiusX, RadiusY}`.
 Tessellation defaults to 32 segments. Outline thickness is signed: positive
 grows inwards, negative grows outwards. Inset is per-axis, matching
-`shape2:circle_outline/4`.
+`graphics_shape2:circle_outline/4`.
 
 ```erlang
-{ok, Shape} = shape2_ellipse:solid({0.0, 0.0}, {20.0, 10.0}, ?COLOR_RED).
-ok = surface:draw_shape2(Surface, Shape).
-ok = shape2:destroy(Shape).
+{ok, Shape} = graphics_shape2_ellipse:solid({0.0, 0.0}, {20.0, 10.0}, ?COLOR_RED).
+ok = graphics_surface:draw_shape2(Surface, Shape).
+ok = graphics_shape2:destroy(Shape).
 ```
 
 Generated vertices use UV coordinates `(0.0, 0.0)`. Dispose the shape with
-`shape2:destroy/1`.
+`graphics_shape2:destroy/1`.
 
 Beware that a well-formed 2D ellipse always uses floats, not integers, for
 positions, radii, thickness, and colors.
@@ -186,9 +186,9 @@ ellipse_point(X, Y, RadiusX, RadiusY, Angle) ->
     {X + RadiusX * math:cos(Angle), Y + RadiusY * math:sin(Angle)}.
 
 shape_from_vertices(Vertices, PrimitiveType) ->
-    case mesh2:with_vertices(Vertices) of
+    case graphics_mesh2:with_vertices(Vertices) of
         {ok, Mesh} ->
-            {ok, shape2:with_mesh(Mesh, PrimitiveType, length(Vertices))};
+            {ok, graphics_shape2:with_mesh(Mesh, PrimitiveType, length(Vertices))};
         out_of_memory ->
             out_of_memory
     end.

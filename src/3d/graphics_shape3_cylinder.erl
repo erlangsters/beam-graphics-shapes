@@ -7,7 +7,7 @@
 %%
 %% Written by Jonathan De Wachter <jonathan.dewachter@byteplug.io>
 %%
--module(shape3_cylinder).
+-module(graphics_shape3_cylinder).
 -moduledoc """
 3D Cylinder
 
@@ -19,18 +19,18 @@ extent, so the body occupies `Y` in `[Cy - Height/2, Cy + Height/2]`. Both
 ends are capped with disks. Tessellation defaults to 16 slices. Y is up.
 
 ```erlang
-{ok, Shape} = shape3_cylinder:solid(
+{ok, Shape} = graphics_shape3_cylinder:solid(
     {0.0, 0.0, 0.0},
     1.0,
     2.0,
     ?COLOR_RED
 ).
-ok = surface:draw_shape3(Surface, Shape).
-ok = shape3:destroy(Shape).
+ok = graphics_surface:draw_shape3(Surface, Shape).
+ok = graphics_shape3:destroy(Shape).
 ```
 
 Generated vertices use UV coordinates `(0.0, 0.0)`. Dispose the shape with
-`shape3:destroy/1`.
+`graphics_shape3:destroy/1`.
 
 Beware that a well-formed 3D cylinder always uses floats, not integers, for
 positions, radii, heights, and colors.
@@ -181,9 +181,9 @@ rim_point(X, Z, Radius, Y, J, Slices) ->
     {X + Radius * math:sin(Phi), Y, Z + Radius * math:cos(Phi)}.
 
 shape_from_vertices(Vertices, PrimitiveType) ->
-    case mesh3:with_vertices(Vertices) of
+    case graphics_mesh3:with_vertices(Vertices) of
         {ok, Mesh} ->
-            {ok, shape3:with_mesh(Mesh, PrimitiveType, length(Vertices))};
+            {ok, graphics_shape3:with_mesh(Mesh, PrimitiveType, length(Vertices))};
         out_of_memory ->
             out_of_memory
     end.

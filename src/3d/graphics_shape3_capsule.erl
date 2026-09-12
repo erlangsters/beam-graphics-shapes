@@ -7,7 +7,7 @@
 %%
 %% Written by Jonathan De Wachter <jonathan.dewachter@byteplug.io>
 %%
--module(shape3_capsule).
+-module(graphics_shape3_capsule).
 -moduledoc """
 3D Capsule
 
@@ -20,18 +20,18 @@ extent including the hemispheres. The cylindrical mid-section length is
 defaults to 16 slices. Y is up.
 
 ```erlang
-{ok, Shape} = shape3_capsule:solid(
+{ok, Shape} = graphics_shape3_capsule:solid(
     {0.0, 0.0, 0.0},
     1.0,
     4.0,
     ?COLOR_RED
 ).
-ok = surface:draw_shape3(Surface, Shape).
-ok = shape3:destroy(Shape).
+ok = graphics_surface:draw_shape3(Surface, Shape).
+ok = graphics_shape3:destroy(Shape).
 ```
 
 Generated vertices use UV coordinates `(0.0, 0.0)`. Dispose the shape with
-`shape3:destroy/1`.
+`graphics_shape3:destroy/1`.
 
 Beware that a well-formed 3D capsule always uses floats, not integers, for
 positions, radii, heights, and colors.
@@ -289,9 +289,9 @@ unit_sphere_point(I, J, Rings, Slices) ->
     }.
 
 shape_from_vertices(Vertices, PrimitiveType) ->
-    case mesh3:with_vertices(Vertices) of
+    case graphics_mesh3:with_vertices(Vertices) of
         {ok, Mesh} ->
-            {ok, shape3:with_mesh(Mesh, PrimitiveType, length(Vertices))};
+            {ok, graphics_shape3:with_mesh(Mesh, PrimitiveType, length(Vertices))};
         out_of_memory ->
             out_of_memory
     end.
