@@ -4,10 +4,20 @@
     {registered, []},
     {applications, [
         kernel,
-        stdlib
+        stdlib,
+        beam_graphics
     ]},
     {env, []},
-    {modules, []},
+    {modules, [
+        beam_graphics_shapes,
+        shape2_rounded_rectangle,
+        shape2_ellipse,
+        shape2_ring,
+        shape3_cylinder,
+        shape3_capsule,
+        shape3_pyramid,
+        shape3_torus
+    ]},
     {licenses, ["MIT"]},
     {links, []}
  ]}.
